@@ -46,12 +46,24 @@ function renderImages() {
   imgThree.viewed++;
 }
 
-
-
-
-
 function randomNumber(max) {
   return Math.floor(Math.random() * max);
 }
 
+imgElOne.addEventListener('click', eventHandler);
+imgElTwo.addEventListener('click', eventHandler);
+imgElThree.addEventListener('click', eventHandler);
+
+function eventHandler(event) {
+  console.log(event.target.alt);
+  for(var i = 0; i < imgArray.length; i++){
+    if (imgArray[i].name === event.target.alt) {
+      imgArray[i].clicked++;
+      renderImages();
+    }
+  }
+}
+
 renderImages();
+
+
