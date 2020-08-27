@@ -75,6 +75,12 @@ function randomNumber(max) {
 
 function eventHandler(event) {
   userClicks++;
+  var imgClicked = event.target;
+
+  if (imgClicked === myContainer) {
+    alert('Please click an image.');
+  }
+
   if (userClicks === maxClicks) {
     myContainer.removeEventListener('click', eventHandler);
     for (var j = 0; j < imgArray.length; j++) {
@@ -86,9 +92,9 @@ function eventHandler(event) {
   for (var i = 0; i < imgArray.length; i++) {
     if (imgArray[i].name === event.target.alt) {
       imgArray[i].clicked++;
+      renderImages();
     }
   }
-  renderImages();
 }
 
 myContainer.addEventListener('click', eventHandler);
