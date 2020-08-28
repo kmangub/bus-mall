@@ -9,3 +9,8 @@ body {
 img {
   height: 350px;
 }
+
+canvas {
+  height: 400px;
+  width: 400px;
+}
