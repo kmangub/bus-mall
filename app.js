@@ -9,6 +9,7 @@ var maxClicks = 26;
 var userClicks = 0;
 var totalsOfClicks = document.getElementById('totals');
 var myContainer = document.getElementById('container');
+var imgIndexArray = [];
 
 
 function Picture(name, src) {
@@ -41,18 +42,32 @@ new Picture('usb', './img/usb.gif');
 new Picture('water-can', './img/water-can.jpg');
 new Picture('wine-glass', './img/wine-glass.jpg');
 
+// Random Number Generator
+function randomNumber(max) {
+  return Math.floor(Math.random() * max);
+}
+
+// This line creates unique pictures each time
+function randomPicture() {
+  while (imgIndexArray.length > 3) {
+    imgIndexArray.pop();
+  }
+  while (imgIndexArray.length < 6) {
+    var imgIndex = randomNumber(imgArray.length);
+    while (imgIndexArray.includes(imgIndex)){
+      imgIndex = randomNumber(imgArray.length);
+    }
+    imgIndexArray.unshift(imgIndex);
+  }
+}
 
 function renderImages() {
 
-  var imgOne = imgArray[randomNumber(imgArray.length)];
-  var imgTwo = imgArray[randomNumber(imgArray.length)];
-  var imgThree = imgArray[randomNumber(imgArray.length)];
+  randomPicture();
 
-  while (imgOne === imgTwo || imgTwo === imgThree || imgOne === imgThree) {
-    imgOne = imgArray[randomNumber(imgArray.length)];
-    imgTwo = imgArray[randomNumber(imgArray.length)];
-  }
-
+  var imgOne = imgArray[imgIndexArray[0]];
+  var imgTwo = imgArray[imgIndexArray[1]];
+  var imgThree = imgArray[imgIndexArray[2]];
 
   imgElOne.src = imgOne.src;
   imgElTwo.src = imgTwo.src;
@@ -67,9 +82,6 @@ function renderImages() {
   imgThree.viewed++;
 }
 
-function randomNumber(max) {
-  return Math.floor(Math.random() * max);
-}
 
 
 
@@ -88,6 +100,7 @@ function eventHandler(event) {
       imgClickedAmount.textContent = `${imgArray[j].name}, clicked ${imgArray[j].clicked} times, viewed ${imgArray[j].viewed} times.`;
       totalsOfClicks.append(imgClickedAmount);
     }
+    showChart();
   }
   for (var i = 0; i < imgArray.length; i++) {
     if (imgArray[i].name === event.target.alt) {
@@ -97,12 +110,61 @@ function eventHandler(event) {
   }
 }
 
+// This is where the chart function lives
+function showChart() {
+  var clicksArray = [];
+  var viewedArray = [];
+  var pictureNameArray = [];
+
+  for (var i = 0; i < imgArray.length; i++) {
+    clicksArray.push(imgArray[i].clicked);
+    viewedArray.push(imgArray[i].viewed);
+    pictureNameArray.push(imgArray[i].name);
+  }
+
+  var ctx = document.getElementById('chartTotal').getContext('2d');
+
+  var chartData = {
+    type: 'bar',
+    data: {
+      labels: pictureNameArray,
+      datasets: [{
+        label: '# of Votes',
+        data: clicksArray,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }, {
+        label: '# of Views',
+        data: viewedArray,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor:'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  };
+  var myChart = new Chart(ctx, chartData);
+}
+
+
 myContainer.addEventListener('click', eventHandler);
 // imgElOne.addEventListener('click', eventHandler);
 // imgElTwo.addEventListener('click', eventHandler);
 // imgElThree.addEventListener('click', eventHandler);
 
 renderImages();
+
+
+
 
 
 
