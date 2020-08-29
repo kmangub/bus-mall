@@ -13,3 +13,7 @@
 - Added chart functionality
 - Added a function where the images are not repeated
 - Collaborated with Anthony Beaver
+
+30 AUG 2020:
+
+- Added local storage functionality
