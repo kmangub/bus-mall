@@ -2,15 +2,36 @@
   box-sizing: border-box;
 }
 
+header {
+font-size: 50px;
+background-color: lightpink;
+margin-bottom: 30px;
+}
+
 body {
   background-color: lightblue;
+  width: 960px;
+  margin-left: 300px;
+  margin-top: 30px;
+}
+
+body p {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+img:first-child{
+  height: 250px;
+  margin-right: 15px;
 }
 
 img {
-  height: 350px;
+  height: 250px;
+  margin-right: 15px;
 }
 
 canvas {
   height: 400px;
   width: 400px;
 }
+
